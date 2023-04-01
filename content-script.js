@@ -29,7 +29,7 @@ function isReady() {
 
 function injectIframe() {
   const preEls = scanHtmlBlock();
-  _log(`found: ${preEls.length}`)
+  _log(`found: ${preEls.length}`);
   for (const preEl of preEls) {
     preEl.classList.add('yg-gpt-html');
 
@@ -69,14 +69,11 @@ function injectIframe() {
     toggleEl.append(rightLabel);
 
     // Click
-    let isIframeOn = true;
     inputEl.addEventListener('change', () => {
-      isIframeOn = !isIframeOn;
-      iframe.style.zIndex = isIframeOn ? 1 : -1;
+      iframe.classList.toggle('-hide');
     })
     preEl.append(toggleEl);
-    
-    preEl.style = 'position: relative';
+    _log(`done one`);
   }
 }
 

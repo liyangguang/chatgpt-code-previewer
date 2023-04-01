@@ -11,6 +11,13 @@ pre.yg-gpt-html iframe {
   width: 100%;
   height: calc(100% - 32px);
   background: white;
+  border: 1px solid #ddd;
+  border-bottom-right-radius: 1em;
+  border-bottom-left-radius: 1em;
+}
+
+pre.yg-gpt-html iframe.-hide {
+  display: none;
 }
 
 pre.yg-gpt-html .toggle {
