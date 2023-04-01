@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT HTML viewer",
+  "description": "Show HTML render result on ChatGPT",
+  "author": "liyangguangcn@gmail.com",  
+  "version": "0.1",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/chat/*"],
+      "js": ["content-script.js"],
+      "css": ["styles.css"],
+      "runAi": "document_idle"
+    }
+  ]
+}
