@@ -12,7 +12,7 @@ function listenToResize() {
   const resizeObserver = new ResizeObserver(() => {
     _log('resize');
     setTimeout(() => {
-      if (isReady()) injectIframe();
+      if (isReady()) injectUI();
     }, 1000)
   });
   
@@ -27,7 +27,7 @@ function isReady() {
   return document.querySelector('form button').textContent.includes('Regenerate response');
 }
 
-function injectIframe() {
+function injectUI() {
   const preEls = scanHtmlBlock();
   _log(`found: ${preEls.length}`);
   for (const preEl of preEls) {
@@ -40,14 +40,14 @@ function injectIframe() {
     preEl.append(iframe)
 
     // Inject toggle button
-    const toggleEl = document.createElement('div');
-    toggleEl.classList.add('toggle');
+    const controls = document.createElement('div');
+    controls.classList.add('toggle');
 
     // Left label
     const leftLabel = document.createElement('span');
     leftLabel.classList.add('label-text');
     leftLabel.textContent = 'Code';
-    toggleEl.append(leftLabel);
+    controls.append(leftLabel);
 
     // Input
     const labelEl = document.createElement('label');
@@ -60,19 +60,32 @@ function injectIframe() {
     insideSpanEl.classList.add('round');
     labelEl.append(inputEl);
     labelEl.append(insideSpanEl);
-    toggleEl.append(labelEl);
+    inputEl.addEventListener('change', () => {
+      iframe.classList.toggle('-hide');
+    })
+    controls.append(labelEl);
 
     // Left label
     const rightLabel = document.createElement('span');
     rightLabel.classList.add('label-text');
     rightLabel.textContent = 'Preview';
-    toggleEl.append(rightLabel);
+    controls.append(rightLabel);
 
-    // Click
-    inputEl.addEventListener('change', () => {
-      iframe.classList.toggle('-hide');
-    })
-    preEl.append(toggleEl);
+    const codepenEl = document.createElement('a');
+    codepenEl.textContent = 'Open in CodePen';
+    codepenEl.href = 'https://codepen.io/pen/';
+    codepenEl.target = '_blank';
+    codepenEl.addEventListener('click', () => {
+      const type = preEl.querySelector('span').textContent.toLowerCase();
+      const {htmlString, styleString, scriptString} = parseCode(code, type);
+      console.log('htmlString', htmlString);
+      console.log('styleString', styleString);
+      console.log('scriptString', scriptString);
+      // TODO: save to storage
+    });
+    controls.append(codepenEl);
+
+    preEl.append(controls);
     _log(`done one`);
   }
 }
@@ -82,9 +95,33 @@ function scanHtmlBlock() {
   const allCodeEls = [...document.querySelectorAll('pre')];
   for (const el of allCodeEls) {
     const language = el.querySelector('span').textContent.toLowerCase();
-    if (['html', 'svg'].includes(language) && !el.querySelector('iframe')) {
+    if (['html', 'svg', 'xml'].includes(language) && !el.querySelector('iframe')) {
       htmlCodeEls.push(el);
     }
   }
   return htmlCodeEls;
+}
+
+function parseCode(code, type) {
+  switch (type) {
+    case 'html': {
+      const tempFrame = document.createElement('html');
+      tempFrame.innerHTML = code;
+      const styleEls = [...tempFrame.querySelectorAll('style')];
+      const styleString = styleEls.map((el) => el.textContent).join('\n');
+  
+      const scriptEls = [...tempFrame.querySelectorAll('script')];
+      const scriptString = scriptEls.map((el) => el.textContent).join('\n');
+  
+      for (const el of [...styleEls, ...scriptEls]) {
+        el.remove();
+      }
+      const htmlString = tempFrame.querySelector('body').innerHTML;
+      return {htmlString, styleString, scriptString}
+    }
+    case 'svg':
+    case 'xml':
+    default:
+      return {htmlString: code, styleString: '', scriptString: ''};
+  }
 }

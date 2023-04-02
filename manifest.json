@@ -12,7 +12,13 @@
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat/*"],
-      "js": ["content-script.js"],
+      "js": ["script-openai.js"],
+      "css": ["styles.css"],
+      "runAi": "document_idle"
+    },
+    {
+      "matches": ["https://codepen.io//*"],
+      "js": ["script-codepen.js"],
       "css": ["styles.css"],
       "runAi": "document_idle"
     }
