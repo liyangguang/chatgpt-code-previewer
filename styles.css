@@ -20,12 +20,23 @@ pre.yg-gpt-html iframe.-hide {
   display: none;
 }
 
-pre.yg-gpt-html .toggle {
-  position: absolute;
-  right: 120px;
-  top: 6px;
-  display: flex;
-  align-items: center;
+pre.yg-gpt-html .control-row {
+  justify-content: stretch;
+  gap: 2em;
+}
+
+pre.yg-gpt-html .control-title {
+  flex: 1;
+}
+
+pre.yg-gpt-html button {
+  flex: 0;
+}
+
+pre.yg-gpt-html .codepen {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
 }
 
 /* Toggle */
