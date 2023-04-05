@@ -4,6 +4,8 @@ A simple extension to render your HTML, SVG, etc. code from ChatGPT right on the
 
 ## TODOs
 
-[ ] Add markdown support.
-[ ] Consider if adding non html support. 
-[ ] Allow one click to copy to codepen, etc.
+- Landing page.
+- Parse external resources (css, js) used in the response as well.
+- Add markdown support.
+- Consider if adding non html support. 
+- Allow one click to copy to codepen, etc.
