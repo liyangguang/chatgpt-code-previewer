@@ -21,15 +21,18 @@ function injectUI() {
   _log(`found: ${preEls.length}`);
   for (const preEl of preEls) {
     preEl.classList.add('yg-gpt-html');
+    const code = preEl.querySelector('code').textContent;
+    const type = preEl.querySelector('span').textContent.toLowerCase();
 
     // Inject iframe
-    const code = preEl.querySelector('code').textContent;
-    const iframe = document.createElement('iframe');
-    iframe.srcdoc = code;
-    preEl.append(iframe)
+    const iframeEl = createElement('iframe', {srcdoc: code});
+    preEl.append(iframeEl);
 
-    const toggleEl = generateToggle();
-    const codepenEl = generateCodepenLink();
+    const toggleEl = generateToggle(() => {
+      iframeEl.classList.toggle('-hide');
+    });
+
+    const codepenEl = generateCodepenLink(code, type);
 
     const controlRow = preEl.querySelector('div > div');
     controlRow.classList.add('control-row');
@@ -40,56 +43,41 @@ function injectUI() {
   }
 }
 
-function generateToggle() {
-  const toggleEl = document.createElement('div');
-  toggleEl.classList.add('toggle');
+function generateToggle(eventHandler) {
+  const toggleEl = createElement('div', {}, ['toggle']);
 
   // Left label
-  const leftLabel = document.createElement('span');
-  leftLabel.classList.add('label-text');
-  leftLabel.textContent = 'Code';
-  toggleEl.append(leftLabel);
+  toggleEl.append(createElement('span', {textContent: 'Code'}, ['label-text']));
 
   // Input
-  const labelEl = document.createElement('label');
-  labelEl.classList.add('switch');
-  const inputEl = document.createElement('input');
-  inputEl.type = 'checkbox';
-  inputEl.checked = true;
-  const insideSpanEl = document.createElement('span');
-  insideSpanEl.classList.add('slider');
-  insideSpanEl.classList.add('round');
+  const labelEl = createElement('label', {}, ['switch']);
+  const inputEl = createElement('input', {type: 'checkbox', checked: true});
+  const insideSpanEl = createElement('span', {}, ['slider', 'round']);
   labelEl.append(inputEl);
   labelEl.append(insideSpanEl);
-  inputEl.addEventListener('change', () => {
-    iframe.classList.toggle('-hide');
-  })
   toggleEl.append(labelEl);
 
   // Left label
-  const rightLabel = document.createElement('span');
-  rightLabel.classList.add('label-text');
-  rightLabel.textContent = 'Preview';
-  toggleEl.append(rightLabel);
+  toggleEl.append(createElement('span', {textContent: 'Preview'}, ['label-text']));
 
+
+  inputEl.addEventListener('change', eventHandler);
   return toggleEl;
 }
 
-function generateCodepenLink() {
-  const codepenEl = document.createElement('a');
-  codepenEl.textContent = 'Open in CodePen';
-  codepenEl.href = 'https://codepen.io/pen/';
-  codepenEl.target = '_blank';
-  codepenEl.classList.add('codepen');
-  codepenEl.addEventListener('click', () => {
-    const type = preEl.querySelector('span').textContent.toLowerCase();
-    const {htmlString, styleString, scriptString} = parseCode(code, type);
-    console.log('htmlString', htmlString);
-    console.log('styleString', styleString);
-    console.log('scriptString', scriptString);
-    // TODO: save to storage
+function generateCodepenLink(code, type) {
+  const codeContent = JSON.stringify({
+    title: 'New Pen by ChatGPT Code Previewer',
+    description: 'New Pen by ChatGPT Code Previewer Chrome extension',
+    ...parseCode(code, type),
   });
-  return codepenEl;
+  const formEl = createElement('form', {action: 'https://codepen.io/pen/define', method: 'POST', target: '_blank'});
+  const hiddenEl = createElement('input', {type: 'hidden', name: 'data', value: codeContent});
+  const clickEl = createElement('button', {textContent: 'Open in CodePen'}, ['codepen']);
+  formEl.append(hiddenEl);
+  formEl.append(clickEl);
+
+  return formEl;
 }
 
 function scanHtmlBlock() {
@@ -119,11 +107,40 @@ function parseCode(code, type) {
         el.remove();
       }
       const htmlString = tempFrame.querySelector('body').innerHTML;
-      return {htmlString, styleString, scriptString}
+      return {
+        html: removeExtraIndentation(htmlString),
+        css: removeExtraIndentation(styleString),
+        js: removeExtraIndentation(scriptString),
+      };
     }
     case 'svg':
     case 'xml':
     default:
-      return {htmlString: code, styleString: '', scriptString: ''};
+      return {
+        html: removeExtraIndentation(code),
+        css: '',
+        js: '',
+      };
   }
+}
+
+function removeExtraIndentation(codeString) {
+  const originalLines = codeString.split('\n');
+  const lines = originalLines[0].trim().length ? originalLines : originalLines.slice(1);
+  const indentationSize = (lines[0] || '').match(/^ */)?.[0].length;
+  return lines.map((line) => line.replace(new RegExp(`^ {${indentationSize}}`), '')).join('\n');
+}
+
+function createElement(tag, attributes, classes = [], innerHTML = '') {
+  const element = document.createElement(tag);
+  for (const [key, value] of Object.entries(attributes)) {
+    element[key] = value;
+  }
+  for (const classname of classes) {
+    element.classList.add(classname);
+  }
+  if (innerHTML) {
+    element.innerHTML = innerHTML;
+  }
+  return element;
 }
