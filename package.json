@@ -1,5 +1,5 @@
 {
-  "name": "chatgpt-code-preview",
+  "name": "chatgpt-code-previewer",
   "version": "1.0.0",
   "description": "A very simple extension to allow you to set ChatGPT as your Chrome's default search engine.",
 	"author": "Yangguang Li <liyangguangcn@gmail.com> (https://liyangguang.com/)",

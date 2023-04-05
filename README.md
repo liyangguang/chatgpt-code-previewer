@@ -1,8 +1,9 @@
-# ChatGPT HTML viewer
+# ChatGPT Code Previewer
 
-A simple extension to render your HTML or SVG code from ChatGPT right on the page.
+A simple extension to render your HTML, SVG, etc. code from ChatGPT right on the page.
 
 ## TODOs
 
-- Add markdown support
-- Allow one click to copy to codepen, etc.
+[ ] Add markdown support.
+[ ] Consider if adding non html support. 
+[ ] Allow one click to copy to codepen, etc.
