@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-md-6">
           <h2>Live Code Preview</h2>
-          <p>See the generated HTML, SVG, and other code snippets in action with a live preview in the chat window.</p>
+          <p>See the generated HTML, SVG, and Markdown code snippets in action with a live preview in the chat window.</p>
         </div>
         <div class="col-md-6">
           <img src="./assets/screenshot-1.png" alt="Live Code Preview" class="preview-image">

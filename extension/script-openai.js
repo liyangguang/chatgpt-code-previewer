@@ -25,7 +25,7 @@ function injectUI() {
     const type = preEl.querySelector('span').textContent.toLowerCase();
 
     // Inject iframe
-    const iframeEl = createElement('iframe', {srcdoc: code});
+    const iframeEl = createElement('iframe', {srcdoc: type === 'markdown' ? marked.parse(code) : code});
     preEl.append(iframeEl);
 
     const toggleEl = generateToggle(() => {
@@ -85,12 +85,14 @@ function scanHtmlBlock() {
   const allCodeEls = [...document.querySelectorAll('pre')];
   for (const el of allCodeEls) {
     const language = el.querySelector('span').textContent.toLowerCase();
-    if (['html', 'svg', 'xml'].includes(language) && !el.querySelector('iframe')) {
+    if (ALL_SUPPORTED_TYPES.includes(language) && !el.querySelector('iframe')) {
       htmlCodeEls.push(el);
     }
   }
   return htmlCodeEls;
 }
+
+const ALL_SUPPORTED_TYPES = ['html', 'svg', 'xml', 'markdown'];
 
 function parseCode(code, type) {
   switch (type) {
@@ -122,6 +124,11 @@ function parseCode(code, type) {
         js_external: jsLinks,
       };
     }
+    case 'markdown':
+      return {
+        html: code,
+        html_pre_processor: 'markdown',
+      }
     case 'svg':
     case 'xml':
     default:
