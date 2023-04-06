@@ -103,6 +103,13 @@ function parseCode(code, type) {
       const scriptEls = [...tempFrame.querySelectorAll('script')];
       const scriptString = scriptEls.map((el) => el.textContent).join('\n');
   
+      const cssLinks = [...tempFrame.querySelectorAll('link[rel=stylesheet]')]
+          .map((el) => el.href)
+          .join(';');
+      const jsLinks = [...tempFrame.querySelectorAll('script[src]')]
+          .map((el) => el.src)
+          .join(';');
+
       for (const el of [...styleEls, ...scriptEls]) {
         el.remove();
       }
@@ -111,6 +118,8 @@ function parseCode(code, type) {
         html: removeExtraIndentation(htmlString),
         css: removeExtraIndentation(styleString),
         js: removeExtraIndentation(scriptString),
+        css_external: cssLinks,
+        js_external: jsLinks,
       };
     }
     case 'svg':
