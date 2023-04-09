@@ -25,12 +25,7 @@ function injectUI() {
     const type = preEl.querySelector('span').textContent.toLowerCase();
 
     // Inject iframe
-    const iframeEl = createElement('iframe', {srcdoc: type === 'markdown' ? marked.parse(code) : code});
-    preEl.append(iframeEl);
-
-    const toggleEl = generateToggle(() => {
-      iframeEl.classList.toggle('-hide');
-    });
+    const iframeContent = parseIframe(code, type);
 
     const codepenEl = generateCodepenLink(code, type);
 
@@ -38,7 +33,17 @@ function injectUI() {
     controlRow.classList.add('control-row');
     const titleEl = controlRow.querySelector('span');
     titleEl.classList.add('control-title');
-    titleEl.after(toggleEl, codepenEl);
+    titleEl.after(codepenEl);
+
+    if (iframeContent) {
+      const iframeEl = createElement('iframe', {srcdoc: type === 'markdown' ? marked.parse(code) : code});
+      preEl.append(iframeEl);
+
+      const toggleEl = generateToggle(() => {
+        iframeEl.classList.toggle('-hide');
+      });
+      titleEl.after(toggleEl);
+    }
     _log(`done one`);
   }
 }
@@ -84,7 +89,7 @@ function scanHtmlBlock() {
   let htmlCodeEls = [];
   const allCodeEls = [...document.querySelectorAll('pre')];
   for (const el of allCodeEls) {
-    const language = el.querySelector('span').textContent.toLowerCase();
+    const language = el.querySelector('span')?.textContent.toLowerCase();
     if (ALL_SUPPORTED_TYPES.includes(language) && !el.querySelector('iframe')) {
       htmlCodeEls.push(el);
     }
