@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT Code Previewer</title>
+  <style>
+    body {
+      width: 350px;
+      font-size: 100%;
+      font-family: sans-serif;
+      line-height: 1.4;
+    }
+
+    h1 {
+      font-size: 1.4em;
+    }
+
+    h2 {
+      font-size: 1.2em;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      width: 100%;
+      font-size: .9em;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    table thead tr {
+      background-color: #009879;
+      color: #ffffff;
+      text-align: left;
+    }
+
+    table th,
+    table td {
+      padding: .3em .5em;
+    }
+
+    table tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+
+    table tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+    }
+
+    table tbody tr:last-of-type {
+      border-bottom: 2px solid #009879;
+    }
+
+    table td:not(:first-child) {
+      text-align: center;
+    }
+
+    footer {
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+<body>
+  <h1>ChatGPT Code Previewer</h1>
+  <p>Use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> normally. When there's any code block with supported language, the extension will automatically insert code preview and/or CodePen edit link, after the bot response is finished.</p>
+  <h2>Supported languages</h2>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Preview</th>
+        <th>CodePen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>HTML</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>SVG</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>Markdown</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>CSS</td>
+        <td>﹣</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>JavaScript / TypeScript</td>
+        <td>﹣</td>
+        <td>✅</td>
+      </tr>
+    </tbody>
+  </table>
+  <footer>
+    Developed by <a href="https://liyangguang.com/" target="_blank">Yangguang</a>. 
+    <a href="https://chatgpt-code-previewer.vercel.app/" target="_blank">Learn more</a>
+  </footer>
+</body>
+</html>
