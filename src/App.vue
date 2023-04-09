@@ -13,7 +13,43 @@
       <div class="row">
         <div class="col-md-6">
           <h2>Live Code Preview</h2>
-          <p>See the generated <b>HTML (with CSS + JS)</b>, <b>SVG</b>, and <b>Markdown</b> code snippets in action with a live preview in the chat window.</p>
+          <p>See the generated code snippets in action with a live preview in the chat window.</p>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Preview</th>
+                <th>CodePen</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>HTML</td>
+                <td>✅</td>
+                <td>✅</td>
+              </tr>
+              <tr>
+                <td>SVG</td>
+                <td>✅</td>
+                <td>✅</td>
+              </tr>
+              <tr>
+                <td>Markdown</td>
+                <td>✅</td>
+                <td>✅</td>
+              </tr>
+              <tr>
+                <td>CSS</td>
+                <td>﹣</td>
+                <td>✅</td>
+              </tr>
+              <tr>
+                <td>JavaScript / TypeScript</td>
+                <td>﹣</td>
+                <td>✅</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="col-md-6">
           <img src="./assets/screenshot-1.png" alt="Live Code Preview" class="preview-image">
@@ -72,6 +108,38 @@
 .preview-image {
   max-width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  width: 100%;
+  font-size: .9em;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
+table thead tr {
+  background: linear-gradient(200deg, #4786FF, #7CC8FF);
+  color: #ffffff;
+  text-align: left;
+}
+
+table th,
+table td {
+  padding: .3em .5em;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+th,
+table td:not(:first-child) {
+  text-align: center;
 }
 
 footer {
