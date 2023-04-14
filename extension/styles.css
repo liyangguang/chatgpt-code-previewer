@@ -3,13 +3,14 @@ pre.yg-gpt-html {
 }
 
 pre.yg-gpt-html iframe {
+  --header-height: 32px;
   position: absolute;
   left: 0;
   right: 0;
-  top: 32px;
+  top: var(--header-height);
   bottom: 0;
   width: 100%;
-  height: calc(100% - 32px);
+  height: calc(100% - var(--header-height));
   background: white;
   border: 1px solid #ddd;
   border-bottom-right-radius: 1em;
@@ -40,6 +41,12 @@ pre.yg-gpt-html .codepen {
 }
 
 /* Toggle */
+
+pre.yg-gpt-html .toggle {
+  display: flex;
+  line-height: 1;
+  align-items: center;
+}
 
 pre.yg-gpt-html .switch {
   position: relative;

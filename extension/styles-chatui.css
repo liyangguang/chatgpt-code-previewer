@@ -1,0 +1,7 @@
+pre.yg-gpt-html iframe {
+  --header-height: 39px;
+}
+
+pre.yg-gpt-html .codepen {
+  font-size: 12px;
+}
