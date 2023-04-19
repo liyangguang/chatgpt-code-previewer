@@ -1,67 +1,74 @@
-pre.yg-gpt-html {
+.chatgpt-code-previewer .iframe-parent {
   position: relative;
 }
 
-pre.yg-gpt-html iframe {
-  --header-height: 32px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--header-height);
-  bottom: 0;
-  width: 100%;
-  height: calc(100% - var(--header-height));
-  background: white;
-  border: 1px solid #ddd;
-  border-bottom-right-radius: 1em;
-  border-bottom-left-radius: 1em;
+/* Hide the horizontal scrollbar when the iframe is visible. */
+.chatgpt-code-previewer .iframe-parent:has(iframe:not(.-hide)) {
+  overflow: hidden;
 }
 
-pre.yg-gpt-html iframe.-hide {
+.chatgpt-code-previewer iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  /* Match the outside container rounded corner. */
+  border-bottom-right-radius: .5em;
+  border-bottom-left-radius: .5em;
+}
+
+.chatgpt-code-previewer iframe.-hide {
   display: none;
 }
 
-pre.yg-gpt-html .control-row {
+.chatgpt-code-previewer .control-row {
   justify-content: stretch;
   gap: 2em;
 }
 
-pre.yg-gpt-html .control-title {
+.chatgpt-code-previewer .control-title {
   flex: 1;
 }
 
-pre.yg-gpt-html button {
+.chatgpt-code-previewer button {
   flex: 0;
 }
 
-pre.yg-gpt-html .codepen {
+.chatgpt-code-previewer form:has(.codepen) {
+  display: contents;
+}
+
+.chatgpt-code-previewer .codepen {
   color: inherit;
   text-decoration: none;
   font: inherit;
+  line-height: 1;
 }
 
 /* Toggle */
 
-pre.yg-gpt-html .toggle {
+.chatgpt-code-previewer .toggle {
   display: flex;
   line-height: 1;
   align-items: center;
 }
 
-pre.yg-gpt-html .switch {
+.chatgpt-code-previewer .switch {
   position: relative;
   display: inline-block;
   width: 32px;
   height: 16px;
 }
 
-pre.yg-gpt-html .switch input {
+.chatgpt-code-previewer .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-pre.yg-gpt-html .slider {
+.chatgpt-code-previewer .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -72,7 +79,7 @@ pre.yg-gpt-html .slider {
   transition: 0.4s;
 }
 
-pre.yg-gpt-html .slider:before {
+.chatgpt-code-previewer .slider:before {
   position: absolute;
   content: "";
   height: 14px;
@@ -83,23 +90,23 @@ pre.yg-gpt-html .slider:before {
   transition: 0.4s;
 }
 
-pre.yg-gpt-html input:checked + .slider {
+.chatgpt-code-previewer input:checked + .slider {
   background-color: #2196F3;
 }
 
-pre.yg-gpt-html input:checked + .slider:before {
+.chatgpt-code-previewer input:checked + .slider:before {
   transform: translateX(16px);
 }
 
-pre.yg-gpt-html .slider.round {
+.chatgpt-code-previewer .slider.round {
   border-radius: 16px;
 }
 
-pre.yg-gpt-html .slider.round:before {
+.chatgpt-code-previewer .slider.round:before {
   border-radius: 50%;
 }
 
-pre.yg-gpt-html .label-text {
+.chatgpt-code-previewer .label-text {
   font-size: 12px;
   margin: 0 6px;
   color: #d9d9e3;

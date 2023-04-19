@@ -2,23 +2,21 @@ function _log(message) {
   console.debug('[ChatGPT HTML viewer]', message);
 }
 
-_log('start');
-
-function listenToChange(regenerateButtonSelector) {
+function listenToChange(regenerateButtonSelector, codeBlockSelector, iframeParentSelector) {
   _log('listening to change');
   // Tried using resize observer etc. but not very reliable. Considering the operation is not super complex, just doing it in an interval.
   setInterval(() => {
     if (document.querySelector(regenerateButtonSelector).textContent.includes('Regenerate response')) {
-      injectUI();
+      injectUI(codeBlockSelector, iframeParentSelector);
     }
   }, 1000);
 }
 
-function injectUI() {
-  const preEls = scanHtmlBlock();
-  _log(`found: ${preEls.length}`);
+function injectUI(codeBlockSelector, iframeParentSelector) {
+  const preEls = scanHtmlBlock(codeBlockSelector);
+  if (preEls.length) _log(`Found: ${preEls.length}`);
   for (const preEl of preEls) {
-    preEl.classList.add('yg-gpt-html');
+    preEl.classList.add('chatgpt-code-previewer');
     const code = preEl.querySelector('code').textContent;
     const type = preEl.querySelector('span').textContent.toLowerCase();
 
@@ -35,14 +33,16 @@ function injectUI() {
 
     if (iframeContent) {
       const iframeEl = createElement('iframe', {srcdoc: type === 'markdown' ? marked.parse(code) : code});
-      preEl.append(iframeEl);
+      const iframeParentEl = preEl.querySelector(iframeParentSelector);
+      iframeParentEl.classList.add('iframe-parent');
+      iframeParentEl.append(iframeEl);
 
       const toggleEl = generateToggle(() => {
         iframeEl.classList.toggle('-hide');
       });
       titleEl.after(toggleEl);
     }
-    _log(`done one`);
+    _log(`Added one code preview/link`);
   }
 }
 
@@ -83,12 +83,12 @@ function generateCodepenLink(code, type) {
   return formEl;
 }
 
-function scanHtmlBlock() {
+function scanHtmlBlock(codeBlockSelector) {
   let htmlCodeEls = [];
-  const allCodeEls = [...document.querySelectorAll('pre')];
+  const allCodeEls = [...document.querySelectorAll(codeBlockSelector)];
   for (const el of allCodeEls) {
     const language = el.querySelector('span')?.textContent.toLowerCase();
-    if (ALL_SUPPORTED_TYPES.includes(language) && !el.querySelector('iframe')) {
+    if (ALL_SUPPORTED_TYPES.includes(language) && !el.querySelector('.control-row')) {
       htmlCodeEls.push(el);
     }
   }

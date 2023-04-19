@@ -1,7 +1,3 @@
-pre.yg-gpt-html iframe {
-  --header-height: 39px;
-}
-
-pre.yg-gpt-html .codepen {
+.chatgpt-code-previewer .codepen {
   font-size: 12px;
 }

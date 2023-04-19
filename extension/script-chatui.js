@@ -1,4 +1,4 @@
 (function start() {
-  _log('start')
-  listenToChange('main div.bg-gradient-to-b button');
+  _log('Start scanning ChatUI code blocks.')
+  listenToChange('main div.bg-gradient-to-b button', '.codeblock', 'pre');
 })();
