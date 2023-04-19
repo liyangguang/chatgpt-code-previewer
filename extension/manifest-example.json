@@ -18,12 +18,6 @@
       "js": ["marked.js", "script-shared.js", "script-openai.js"],
       "css": ["styles.css"],
       "runAi": "document_idle"
-    },
-    {
-      "matches": ["https://chat.0x01.ai/*"],
-      "js": ["marked.js", "script-shared.js", "script-chatui.js"],
-      "css": ["styles.css", "styles-chatui.css"],
-      "runAi": "document_idle"
     }
   ]
 }
