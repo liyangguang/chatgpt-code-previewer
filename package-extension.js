@@ -4,10 +4,10 @@ const bestzip = require('bestzip');
 
 const extensionFolder = 'extension';
 
-const privatePath = path.join(extensionFolder, 'manifest-private.json');
-const publicPath = path.join(extensionFolder, 'manifest-public.json');
+const privatePath = path.join(extensionFolder, '.manifest-private.json');
+const publicPath = path.join(extensionFolder, '.manifest-public.json');
 const targetPath = path.join(extensionFolder, 'manifest.json');
-const tempPath = path.join(extensionFolder, 'manifest-temp.json');
+const tempPath = path.join(extensionFolder, '.manifest-temp.json');
 
 (async function run() {
   console.log('Starting...');
@@ -19,9 +19,13 @@ async function outputOne(isPublic) {
   console.log(`Preparing for ${isPublic ? 'public' : 'private'}`);
   copy(targetPath, tempPath, true);
   copy(isPublic ? publicPath : privatePath, targetPath);
-  await compress(isPublic ? '_public.zip' : '_private.zip');
-  copy(tempPath, targetPath, true);
-  console.log(`Done!`);
+  try {
+    await compress(isPublic ? '_public.zip' : '_private.zip');
+    copy(tempPath, targetPath, true);
+    console.log(`Done!`);
+  } catch(e) {
+    console.error(e);
+  }
 }
 
 function copy(from, to, ignoreError) {
@@ -34,6 +38,7 @@ function copy(from, to, ignoreError) {
 }
 
 function compress(filename) {
+  fs.unlinkSync(filename);
   return bestzip({
     source: `${extensionFolder}/*`,
     destination: filename,  // Intentionally not inside the extension folder to avoid being included.

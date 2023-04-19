@@ -1,6 +1,6 @@
 manifest.json
-manifest*.json
-!manifest-example.json
+.manifest*.json
+!.manifest-example.json
 _*.zip
 
 # Logs
