@@ -10,9 +10,8 @@ const extensionFolder = 'extension';
 })();
 
 async function outputOne() {
-  console.log(`Preparing for ${isPublic ? 'public' : 'private'}`);
   try {
-    await compress(isPublic ? '_public.zip' : '_private.zip');
+    await compress('_chatgpt-code-previewer.zip');
     console.log(`Done!`);
   } catch(e) {
     console.error(e);
@@ -29,7 +28,7 @@ function copy(from, to, ignoreError) {
 }
 
 function compress(filename) {
-  fs.unlinkSync(filename);
+  // fs.unlinkSync(filename);
   return bestzip({
     source: `${extensionFolder}/*`,
     destination: filename,  // Intentionally not inside the extension folder to avoid being included.
