@@ -1,4 +1,4 @@
 (function start() {
   _log('Start scanning ChatGPT code blocks.')
-  listenToChange('main > div > form button', 'pre', 'div:has(> code)');
+  listenToChange('form button.btn.relative.btn-neutral', 'pre', 'div:has(> code)');
 })();

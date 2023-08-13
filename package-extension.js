@@ -4,24 +4,15 @@ const bestzip = require('bestzip');
 
 const extensionFolder = 'extension';
 
-const privatePath = path.join(extensionFolder, '.manifest-private.json');
-const publicPath = path.join(extensionFolder, '.manifest-public.json');
-const targetPath = path.join(extensionFolder, 'manifest.json');
-const tempPath = path.join(extensionFolder, '.manifest-temp.json');
-
 (async function run() {
   console.log('Starting...');
-  await outputOne(false);
-  await outputOne(true);
+  await outputOne();
 })();
 
-async function outputOne(isPublic) {
+async function outputOne() {
   console.log(`Preparing for ${isPublic ? 'public' : 'private'}`);
-  copy(targetPath, tempPath, true);
-  copy(isPublic ? publicPath : privatePath, targetPath);
   try {
     await compress(isPublic ? '_public.zip' : '_private.zip');
-    copy(tempPath, targetPath, true);
     console.log(`Done!`);
   } catch(e) {
     console.error(e);

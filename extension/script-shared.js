@@ -1,12 +1,12 @@
 function _log(message) {
-  console.debug('[ChatGPT HTML viewer]', message);
+  console.debug('[ChatGPT Code Previewer]', message);
 }
 
 function listenToChange(regenerateButtonSelector, codeBlockSelector, iframeParentSelector) {
   _log('listening to change');
   // Tried using resize observer etc. but not very reliable. Considering the operation is not super complex, just doing it in an interval.
   setInterval(() => {
-    if (document.querySelector(regenerateButtonSelector).textContent.includes('Regenerate response')) {
+    if (document.querySelector(regenerateButtonSelector)?.textContent.includes('Regenerate')) {
       injectUI(codeBlockSelector, iframeParentSelector);
     }
   }, 1000);
